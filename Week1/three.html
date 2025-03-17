@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<body>
+    <h2>Check Triangle Type</h2>
+    <input type="number" id="side1" placeholder="Enter side 1">
+    <input type="number" id="side2" placeholder="Enter side 2">
+    <input type="number" id="side3" placeholder="Enter side 3">
+    <button onclick="checkTriangle()">Check</button>
+    <p id="output"></p>
+
+    <script>
+        function checkTriangle() {
+            var a = document.getElementById("side1").value;
+            var b = document.getElementById("side2").value;
+            var c = document.getElementById("side3").value;
+            var output = document.getElementById("output");
+
+            if (!a || !b || !c || a <= 0 || b <= 0 || c <= 0) {
+                output.innerHTML = "Please enter valid numbers.";
+                return;
+            }
+            
+            a = parseFloat(a);
+            b = parseFloat(b);
+            c = parseFloat(c);
+
+            if (a + b > c && a + c > b && b + c > a) {
+                if (a == b && b == c) {
+                    output.innerHTML = "It's an Equilateral triangle!";
+                } else if (a == b || a == c || b == c) {
+                    output.innerHTML = "It's an Isosceles triangle!";
+                } else {
+                    output.innerHTML = "It's a Scalene triangle!";
+                }
+            } else {
+                output.innerHTML = "These sides do not make a triangle.";
+            }
+        }
+    </script>
+</body>
+</html>

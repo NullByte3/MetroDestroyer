@@ -1,6 +1,28 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <!--- BLABLALBIJFWGJIWRHIJG -->
-    </head>
+<body>
+    <label for="celsius">Enter Temperature in Celsius:</label>
+    <input type="number" id="celsius" placeholder="Celsius">
+    <button onclick="convertTemperature()">Convert</button>
+    
+    <h3 id="displayIfconverterTitleShit"></h3>
+    <p id="result"></p>
+
+    <script>
+        function convertTemperature() {
+            let celsius = parseFloat(document.getElementById("celsius").value);
+            if (isNaN(celsius)) {
+                alert("Please enter a valid number");
+                // We should kill the user instead of an alert.
+                return;
+            }
+            
+            let fahrenheit = (celsius * 9/5) + 32;
+            let kelvin = celsius + 273.15;
+            
+            document.getElementById("result").textContent = `Fahrenheit: ${fahrenheit} & Kelvin: ${kelvin}`;
+            document.getElementById("displayIfconverterTitleShit").textContent = 'Converted Temperatures:';
+        }
+    </script>
+</body>
 </html>

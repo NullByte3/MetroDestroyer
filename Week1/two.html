@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<script>
+    let pos1 = prompt("Enter position 1: (x, y):")
+    let pos2 = prompt("Enter position 2: (x, y):")
+
+    let x1 = parseFloat(pos1.split(', ')[0])
+    let y1 = parseFloat(pos1.split(', ')[1])
+    let x2 = parseFloat(pos2.split(', ')[0])
+    let y2 = parseFloat(pos2.split(', ')[1])
+
+    let distance = Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
+    
+    alert(`The euclidean distance is ${distance}`)
+
+</script>
