@@ -771,3 +771,102 @@ const restaurants = [
 ];
 
 // your code here
+
+function calculateDistance(lat1, lon1, lat2, lon2) {
+
+  const xDiff = lat2 - lat1;
+  const yDiff = lon2 - lon1;
+  return Math.sqrt(xDiff * xDiff + yDiff * yDiff);
+}
+
+function getUserLocation() {
+  return new Promise((resolve, reject) => {
+    if (!navigator.geolocation) {
+      reject(new Error('Geolocation is not supported by your browser'));
+    } else {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          resolve({
+            latitude: position.coords.latitude,
+            longitude: position.coords.longitude
+          });
+        },
+        (error) => {
+          reject(error);
+        }
+      );
+    }
+  });
+}
+
+function sortRestaurantsByDistance(restaurants, userLat, userLon) {
+  return restaurants.map(restaurant => {
+
+    const restaurantLon = restaurant.location.coordinates[0];
+    const restaurantLat = restaurant.location.coordinates[1];
+
+    const distance = calculateDistance(userLat, userLon, restaurantLat, restaurantLon);
+
+    return {
+      ...restaurant,
+      distance
+    };
+  })
+  .sort((a, b) => a.distance - b.distance);
+}
+
+function displayRestaurants(sortedRestaurants) {
+  const table = document.querySelector('table');
+
+  sortedRestaurants.forEach(restaurant => {
+    const row = document.createElement('tr');
+
+    const nameCell = document.createElement('td');
+    nameCell.textContent = restaurant.name;
+
+    const addressCell = document.createElement('td');
+    addressCell.textContent = `${restaurant.address}, ${restaurant.postalCode} ${restaurant.city}`;
+
+    row.appendChild(nameCell);
+    row.appendChild(addressCell);
+
+    table.appendChild(row);
+  });
+}
+
+async function initApp() {
+  try {
+
+    const userLocation = await getUserLocation();
+    console.log('User location:', userLocation);
+
+    const sortedRestaurants = sortRestaurantsByDistance(
+      restaurants, 
+      userLocation.latitude, 
+      userLocation.longitude
+    );
+
+    displayRestaurants(sortedRestaurants);
+
+  } catch (error) {
+    console.error('Error:', error);
+
+    const defaultLat = 60.1699;
+    const defaultLon = 24.9384;
+
+    const sortedRestaurants = sortRestaurantsByDistance(
+      restaurants, 
+      defaultLat, 
+      defaultLon
+    );
+
+    displayRestaurants(sortedRestaurants);
+
+    const errorMessage = document.createElement('p');
+    errorMessage.style.color = 'red';
+    errorMessage.textContent = `Could not get your location. Using Helsinki city center as default. Error: ${error.message}`;
+    document.body.insertBefore(errorMessage, document.querySelector('table'));
+  }
+}
+
+window.addEventListener('DOMContentLoaded', initApp);
