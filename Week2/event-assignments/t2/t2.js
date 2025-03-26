@@ -771,3 +771,64 @@ const restaurants = [
 ];
 
 // your code here
+const sortedRestaurants = [...restaurants].sort((a, b) => 
+  a.name.localeCompare(b.name)
+);
+
+const table = document.querySelector('table');
+const dialog = document.querySelector('dialog');
+
+function displayRestaurants() {
+
+  sortedRestaurants.forEach(restaurant => {
+    const row = document.createElement('tr');
+    row.dataset.id = restaurant._id; 
+
+    const nameCell = document.createElement('td');
+    nameCell.textContent = restaurant.name;
+
+    const addressCell = document.createElement('td');
+    addressCell.textContent = restaurant.address;
+
+    row.appendChild(nameCell);
+    row.appendChild(addressCell);
+
+    row.addEventListener('click', () => {
+
+      document.querySelectorAll('tr').forEach(r => {
+        r.classList.remove('highlight');
+      });
+
+      row.classList.add('highlight');
+
+      showRestaurantDetails(restaurant);
+    });
+
+    table.appendChild(row);
+  });
+}
+
+function showRestaurantDetails(restaurant) {
+
+  dialog.innerHTML = `
+    <div class="modal-content">
+      <h2>${restaurant.name}</h2>
+      <p><strong>Address:</strong> ${restaurant.address}</p>
+      <p><strong>Postal Code:</strong> ${restaurant.postalCode}</p>
+      <p><strong>City:</strong> ${restaurant.city}</p>
+      <p><strong>Phone:</strong> ${restaurant.phone}</p>
+      <p><strong>Company:</strong> ${restaurant.company}</p>
+      <button class="close-button">Close</button>
+    </div>
+  `;
+
+  dialog.querySelector('.close-button').addEventListener('click', () => {
+    dialog.close();
+  });
+
+  dialog.showModal();
+}
+
+window.addEventListener('DOMContentLoaded', () => {
+  displayRestaurants();
+});
