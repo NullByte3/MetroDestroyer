@@ -1,3 +1,7 @@
+/*
+There is no prompt("") for pure JS. Need to use a browser.
+In this case, I'll just use prompt, even though it's meant to be for JS.
+*/
 let numbers = [];
 let input;
 
@@ -18,12 +22,6 @@ for (let number of numbers) {
         evenNumbers.push(number);
     }
 }
-
-// JS code is saying that write is depreacted, however, as long as it works, it is fine.
-if (evenNumbers.length > 0) {
-    document.write("Even Numbers: " + evenNumbers.join(", "));
-} else {
-    document.write("Even Numbers: None");
-}
+console.log("Even Numbers: " + evenNumbers.join(", "));
 
 console.log("Program complete.");
